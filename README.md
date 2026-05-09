@@ -115,11 +115,11 @@ src/
 |-----------|-----------|
 | Agent | LangGraph (hierarchical supervisor) |
 | LLM | Groq (Llama-3.3 70B) |
-| Search | Tavily + ArXiv |
+| Tools | Tavily, ArXiv, Unstructured.io, Langchain Python REPL |
 | Observability | LangSmith |
 | Web | FastAPI + Uvicorn |
 | UI | Streamlit |
-| PDF | WeasyPrint |
+| PDF | fpdf2 |
 | DB | SQLite (SQLAlchemy) |
 | Container | Docker |
 
