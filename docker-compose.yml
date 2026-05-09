@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    container_name: research-assistant-api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./reports:/app/reports
+      - ./data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  streamlit:
+    image: python:3.11-slim
+    container_name: research-assistant-ui
+    working_dir: /app
+    command: >
+      bash -c "pip install streamlit httpx &&
+      streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./frontend:/app/frontend
+      - ./data:/app/data
+    environment:
+      - API_BASE_URL=http://app:8000
+    depends_on:
+      - app
+    restart: unless-stopped

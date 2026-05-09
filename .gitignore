@@ -1,0 +1,6 @@
+.claude/
+.env
+docs/
+data/           # DB + generated reports
+*.db
+venv/
