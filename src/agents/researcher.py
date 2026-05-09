@@ -107,12 +107,20 @@ async def researcher_node(state: AgentState) -> dict:
         except Exception as e:
             logger.error("tool_execution_failed", tool=name, error=str(e))
             
-    # Combine old and new sources
-    all_sources = list(sources) + new_sources
+    # Combine old and new sources with deduplication by title/URL
+    seen = set()
+    all_sources = []
+    
+    for src in sources + new_sources:
+        # Use URL or Title as unique identifier
+        key = src.get("url") or src.get("title", "unknown")
+        if key not in seen:
+            seen.add(key)
+            all_sources.append(src)
     
     return {
         "sources": all_sources, 
         "status": "researching", 
-        "next_node": "tools", # Forces loop back to researcher in our simplified graph
+        "next_node": "researcher", # Forces loop back to researcher directly
         "current_iteration": current_iteration + 1
     }

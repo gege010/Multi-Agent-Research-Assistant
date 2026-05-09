@@ -1,7 +1,7 @@
 """LangGraph agent state definitions."""
 from __future__ import annotations
+import operator
 from typing import Annotated, Literal, TypedDict
-from langgraph.graph import add_messages
 
 
 class AgentState(TypedDict):
@@ -13,14 +13,17 @@ class AgentState(TypedDict):
     language: Literal["en", "id"]
     include_academic: bool
     include_web: bool
+    max_iterations: int
 
     # Intermediate outputs
-    plan: Annotated[list[str], add_messages]  # accumulated search tasks
+    plan: Annotated[list[str], operator.add]  # accumulated search tasks
     sources: list[dict]  # gathered sources — plain list (no add_messages, avoids LangChain message wrapping)
     draft: str  # markdown report draft
     review_score: float
     revision_count: int
     gap_analysis: str | None
+    current_iteration: int
+    next_node: str | None
 
     # Metadata
     status: Literal[

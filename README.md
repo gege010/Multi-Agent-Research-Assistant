@@ -8,7 +8,7 @@
   - Planner → Researcher → Writer → Reviewer
   - Self-correcting loop (up to 3 revisions)
 - **Multi-source search** — Tavily (web) + ArXiv (academic papers)
-- **PDF generation** — WeasyPrint HTML-to-PDF
+- **PDF generation** — fpdf2 (with Unicode sanitization)
 - **Full observability** — LangSmith traces every tool call
 - **Production-grade API** — FastAPI with SSE streaming
 - **Docker-ready** — Single container, `docker compose up`
